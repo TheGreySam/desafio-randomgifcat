@@ -1,19 +1,86 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    
+    <h2>Random Gif Cat</h2>
+    <form>
+      <div id="form">
+      <div id="input">
+      <label for="titulo">Titulo:</label>
+      <input required type="text" v-model="titulo" 
+      placeholder="añade un titulo al gatito">
+    </div>
+    <div id="input">
+      <label for="filtro">Filtro:</label>
+      <select required v-model="filtro" id="lista filtro">
+        <option value="" selected disabled></option>
+        <option value="blur">blur</option>
+        <option value="mono">mono</option>
+        <option value="sepia">sepia</option>
+        <option value="negative">negative</option>
+        <option value="paint">paint</option>
+        <option value="pixel">pixel</option>
+      </select>
+      
+    </div>
+    <div id="input">
+      <label for="color">Color:</label>
+      <select required>
+        <option value="red">Rojo</option>
+        <option value="blue">Azul</option>
+        <option value="green">Verde</option>
+        <option value="purple">Morado</option>
+        <option value="orange">Naranja</option>
+      </select>
+    </div>
+    <div id="input">
+      <label for="tamaño">Tamaño:</label>
+      <input required type="number" name="tamaño" step="100" min="100" max="1000">
+    </div>
+
+    </div>
+    </form>
+    
+    
+    <button >Obtener mi gatito</button>
+    
+    
+    <div>
+      
+      <img v-bind:src="gatitoUrl">
+    </div>
+
+    
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  
+  computed: {
+    gatitoUrl() {
+      return "https://cataas.com" + "/cat/says/" + `${this.titulo}`
+    }
+  },
+  data() {
+    return {
+      
+        titulo: "",
+        //tituloUrl: "cat/says/" + titulo
+      }
+    
+  },
+  
+  methods: {
+    async gatito() {
+      const catImg = await fetch(`https://cataas.com/cat`);
+      const data = await catImg.json();
+      this.data = data;
+    }
   }
-}
+};
 </script>
 
 <style>
@@ -24,5 +91,15 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+#form {
+  background-color: rgb(255, 118, 118);
+  padding: 2rem;
+}
+#input{
+  padding: 1rem;
+}
+body {
+  background-color: aqua;
 }
 </style>
