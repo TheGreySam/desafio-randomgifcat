@@ -41,19 +41,22 @@
       max="1000"
       v-model.number="formulario.tamaño">
     </div>
+    <button class="btn btn-primary" type="submit">Obtener mi gatito</button>
 
     </div>
     </form>
     
     
-    <button type="submit">Obtener mi gatito</button>
+    
     
     
     <div>
       
       <!--img v-bind:src="gatitoUrl"-->
-      <pre>formulario: {{ formulario }}</pre>
-      <img :src="gatitoUrl" alt="gatito"/>
+      
+      <img :src="gatitoUrl" 
+      alt="gatito" 
+      />
     </div>
 
     
@@ -66,6 +69,7 @@
 export default {
   name: 'App',
   data: () => ({
+    gatitoUrl: "",
     formulario: {
       titulo: null,
       filtro: null,
@@ -91,8 +95,9 @@ export default {
   methods: {
     generarNuevoGatitoUrl() {
       console.log(this.formulario);
-      this.gatitoUrl = `https://cataas.com/cat/gif/says/${this.formulario.titulo}?filter=${this.formulario.filtro}&color=${this.formulario.color}?size=${this.formulario.tamaño}`
-      "https://cataas.com/cat"
+      
+      this.gatitoUrl = `https://cataas.com/cat/gif/says/${this.formulario.titulo}?filter=${this.formulario.filtro}&color=${this.formulario.color}&width=${this.formulario.tamaño}&height=${this.formulario.tamaño}`;
+      
     },
     async gatito() {
       const catImg = await fetch(`https://cataas.com/cat`);
@@ -110,7 +115,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 30px;
 }
 #form {
   background-color: rgb(255, 118, 118);
