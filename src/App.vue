@@ -2,16 +2,16 @@
   <div id="app">
     
     <h2>Random Gif Cat</h2>
-    <form>
+    <form @submit.prevent="generarNuevoGatitoUrl">
       <div id="form">
       <div id="input">
       <label for="titulo">Titulo:</label>
-      <input required type="text" v-model="titulo" 
+      <input required type="text" v-model="formulario.titulo" 
       placeholder="añade un titulo al gatito">
     </div>
     <div id="input">
       <label for="filtro">Filtro:</label>
-      <select required v-model="filtro" id="lista filtro">
+      <select required v-model="formulario.filtro" id="lista filtro">
         <option value="" selected disabled></option>
         <option value="blur">blur</option>
         <option value="mono">mono</option>
@@ -24,7 +24,7 @@
     </div>
     <div id="input">
       <label for="color">Color:</label>
-      <select required>
+      <select required v-model="formulario.color">
         <option value="red">Rojo</option>
         <option value="blue">Azul</option>
         <option value="green">Verde</option>
@@ -34,19 +34,26 @@
     </div>
     <div id="input">
       <label for="tamaño">Tamaño:</label>
-      <input required type="number" name="tamaño" step="100" min="100" max="1000">
+      <input required type="number" 
+      name="tamaño" 
+      step="100" 
+      min="100" 
+      max="1000"
+      v-model.number="formulario.tamaño">
     </div>
 
     </div>
     </form>
     
     
-    <button >Obtener mi gatito</button>
+    <button type="submit">Obtener mi gatito</button>
     
     
     <div>
       
-      <img v-bind:src="gatitoUrl">
+      <!--img v-bind:src="gatitoUrl"-->
+      <pre>formulario: {{ formulario }}</pre>
+      <img :src="gatitoUrl" alt="gatito"/>
     </div>
 
     
@@ -58,22 +65,35 @@
 
 export default {
   name: 'App',
-  
-  computed: {
-    gatitoUrl() {
-      return "https://cataas.com" + "/cat/says/" + `${this.titulo}`
+  data: () => ({
+    formulario: {
+      titulo: null,
+      filtro: null,
+      color: null,
+      tamaño: null,
     }
-  },
-  data() {
-    return {
+  }),
+  
+  //computed: {
+  //  gatitoUrl() {
+  //    return "https://cataas.com" + "/cat/says/" + `${this.titulo}`
+  //  }
+  //},
+  //data() {
+  //  return {
       
-        titulo: "",
+  //      titulo: "",
         //tituloUrl: "cat/says/" + titulo
-      }
+  //    }
     
-  },
+  //},
   
   methods: {
+    generarNuevoGatitoUrl() {
+      console.log(this.formulario);
+      this.gatitoUrl = `https://cataas.com/cat/gif/says/${this.formulario.titulo}?filter=${this.formulario.filtro}&color=${this.formulario.color}?size=${this.formulario.tamaño}`
+      "https://cataas.com/cat"
+    },
     async gatito() {
       const catImg = await fetch(`https://cataas.com/cat`);
       const data = await catImg.json();
